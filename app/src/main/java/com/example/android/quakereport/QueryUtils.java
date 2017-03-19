@@ -6,7 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by richard on 3/17/17.
@@ -49,16 +51,25 @@ public final class QueryUtils {
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
             JSONObject root = new JSONObject(SAMPLE_JSON_RESPONSE);
-
             JSONArray featuresArray = root.getJSONArray("features");
+
+            String mag;
+            String city;
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy");
+            String date;
 
             for (int i = 0; i < featuresArray.length(); i++) {
                 JSONObject featuresObject = featuresArray.getJSONObject(i);
                 JSONObject propertiesObject = featuresObject.getJSONObject("properties");
-                earthquakes.add(new Earthquake(
-                        propertiesObject.getString("mag"),
-                        propertiesObject.getString("place"),
-                        propertiesObject.getString("time")));
+
+                mag = propertiesObject.getString("mag");
+                city = propertiesObject.getString("place");
+                // Format milliseconds to date
+                cal.setTimeInMillis(Long.parseLong(propertiesObject.getString("time")));
+                date = dateFormatter.format(cal.getTime());
+
+                earthquakes.add(new Earthquake(mag, city, date));
             }
 
         } catch (JSONException e) {
