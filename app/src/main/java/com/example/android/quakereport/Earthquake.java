@@ -34,14 +34,7 @@ public class Earthquake {
         return mCity;
     }
 
-    public String getDate() {
-        String date;
-        // Create new Calendar
-        Calendar cal = Calendar.getInstance();
-        // Create date formatter
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy");
-        cal.setTimeInMillis(mTime);
-        date = dateFormatter.format(mTime);
-        return date;
+    public long getDate() {
+        return mTime;
     }
 }

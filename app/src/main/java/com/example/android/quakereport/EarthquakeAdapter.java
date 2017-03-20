@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
@@ -43,7 +46,16 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
         // Date
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_textview);
-        dateTextView.setText(currentEarthquake.getDate());
+        // Format milliseconds to date and time
+        String date;
+        // Create new Calendar
+        Calendar cal = Calendar.getInstance();
+        // Create date formatter
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+        cal.setTimeInMillis(currentEarthquake.getDate());
+        date = dateFormatter.format(cal.getTime());
+
+        dateTextView.setText(date);
 
         return listItemView;
     }
