@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,12 +38,26 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         Earthquake currentEarthquake = getItem(position);
 
         // Magnitude
+        DecimalFormat decimalFormat = new DecimalFormat("0.0");
         TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude_textview);
-        magnitudeTextView.setText(currentEarthquake.getMagnitude());
+        magnitudeTextView.setText(decimalFormat.format(currentEarthquake.getMagnitude()));
 
+        // String to split
+        String city = currentEarthquake.getCity();
+        String cityArray[] = city.split("of ");
+        // City offset
+        TextView cityoffsetTextView = (TextView) listItemView.findViewById(R.id.cityoffset_textview);
         // City
         TextView cityTextView = (TextView) listItemView.findViewById(R.id.city_textview);
-        cityTextView.setText(currentEarthquake.getCity());
+        if (cityArray.length == 1) {
+            // If offset not available
+            cityoffsetTextView.setText("");
+            cityTextView.setText(cityArray[0]);
+        } else {
+            // If offset available
+            cityoffsetTextView.setText(cityArray[0] + " of");
+            cityTextView.setText(cityArray[1]);
+        }
 
         // Date
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_textview);

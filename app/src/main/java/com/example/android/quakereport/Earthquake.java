@@ -11,7 +11,7 @@ public class Earthquake {
 
     // private int mDrawableResource;
 
-    private String mMagnitude;
+    private double mMagnitude;
 
     private String mCity;
 
@@ -19,14 +19,14 @@ public class Earthquake {
 
 
     // Constructor
-    public Earthquake(String magnitude, String city, long time) {
+    public Earthquake(double magnitude, String city, long time) {
         mMagnitude = magnitude;
         mCity = city;
         mTime = time;
     }
 
     // Getters
-    public String getMagnitude() {
+    public double getMagnitude() {
         return mMagnitude;
     }
 
