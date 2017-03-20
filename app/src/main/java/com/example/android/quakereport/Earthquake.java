@@ -1,5 +1,7 @@
 package com.example.android.quakereport;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 /**
  * Created by v759870 on 3/15/2017.
  */
@@ -13,14 +15,14 @@ public class Earthquake {
 
     private String mCity;
 
-    private String mDate;
+    private long mTime;
 
 
     // Constructor
-    public Earthquake(String magnitude, String city, String date) {
+    public Earthquake(String magnitude, String city, long time) {
         mMagnitude = magnitude;
         mCity = city;
-        mDate = date;
+        mTime = time;
     }
 
     // Getters
@@ -33,6 +35,13 @@ public class Earthquake {
     }
 
     public String getDate() {
-        return mDate;
+        String date;
+        // Create new Calendar
+        Calendar cal = Calendar.getInstance();
+        // Create date formatter
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy");
+        cal.setTimeInMillis(mTime);
+        date = dateFormatter.format(mTime);
+        return date;
     }
 }

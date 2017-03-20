@@ -53,23 +53,15 @@ public final class QueryUtils {
             JSONObject root = new JSONObject(SAMPLE_JSON_RESPONSE);
             JSONArray featuresArray = root.getJSONArray("features");
 
-            String mag;
-            String city;
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy");
-            String date;
-
             for (int i = 0; i < featuresArray.length(); i++) {
                 JSONObject featuresObject = featuresArray.getJSONObject(i);
                 JSONObject propertiesObject = featuresObject.getJSONObject("properties");
 
-                mag = propertiesObject.getString("mag");
-                city = propertiesObject.getString("place");
-                // Format milliseconds to date
-                cal.setTimeInMillis(Long.parseLong(propertiesObject.getString("time")));
-                date = dateFormatter.format(cal.getTime());
-
-                earthquakes.add(new Earthquake(mag, city, date));
+                earthquakes.add(new Earthquake(
+                        propertiesObject.getString("mag"),
+                        propertiesObject.getString("place"),
+                        Long.parseLong(propertiesObject.getString("time"))
+                ));
             }
 
         } catch (JSONException e) {
