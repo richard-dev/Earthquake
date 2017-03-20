@@ -7,14 +7,14 @@
 
     <TextView
         android:id="@+id/magnitude_textview"
-        style="@style/ListItemStyle"
         android:layout_marginLeft="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:textColor="@android:color/white"
         android:background="@drawable/magnitude_circle"
         tools:text="8.9"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_gravity="center"/>
 
     <LinearLayout
         style="@style/ListItemStyle"
@@ -29,14 +29,19 @@
             android:layout_height="wrap_content"
             android:textAllCaps="true"
             android:textSize="12sp"
-            tools:text="offset" />
+            android:textColor="@color/textColorEarthquakeDetails"
+            tools:text="offset"
+            android:ellipsize="end"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/city_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#030303"
-            tools:text="City" />
+            android:textColor="@color/textColorEarthquakeLocation"
+            tools:text="Long placeholder location that should wrap to more than 2 lines of text"
+            android:ellipsize="end"
+            android:maxLines="2"/>
     </LinearLayout>
 
     <TextView
