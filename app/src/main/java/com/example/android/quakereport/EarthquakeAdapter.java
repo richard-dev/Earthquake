@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -46,8 +47,45 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         // Set the proper background color on the magnitude circle.
         // Fetch the background from the TextView, which is a GradientDrawable
         GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeTextView.getBackground();
+        magnitudeCircle.setColor(getMagnitudeColor(currentEarthquake.getMagnitude()));
+
+        // City
+        // String to split
+        String city = currentEarthquake.getCity();
+        String cityArray[] = city.split("of ");
+        // City offset
+        TextView cityoffsetTextView = (TextView) listItemView.findViewById(R.id.cityoffset_textview);
+        // City
+        TextView cityTextView = (TextView) listItemView.findViewById(R.id.city_textview);
+        if (cityArray.length == 1) {
+            // If offset not available
+            cityoffsetTextView.setText("");
+            cityTextView.setText(cityArray[0]);
+        } else {
+            // If offset available
+            cityoffsetTextView.setText(cityArray[0] + " of");
+            cityTextView.setText(cityArray[1]);
+        }
+
+        // Date
+        TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_textview);
+        // Format milliseconds to date and time
+        String date;
+        // Create new Calendar
+        Calendar cal = Calendar.getInstance();
+        // Create date formatter
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+        cal.setTimeInMillis(currentEarthquake.getDate());
+        date = dateFormatter.format(cal.getTime());
+
+        dateTextView.setText(date);
+
+        return listItemView;
+    }
+
+    private int getMagnitudeColor(double magnitude) {
         int magnitudeColorResourceId;
-        int magnitudeFloor = (int) Math.floor(currentEarthquake.getMagnitude());
+        int magnitudeFloor = (int) Math.floor(magnitude);
         switch (magnitudeFloor) {
             case 0:
             case 1:
@@ -83,39 +121,6 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         // You can call ContextCompat getColor() to convert the color resource ID into an
         // actual integer color value, and return the result as the return value of the
         // getMagnitudeColor() helper method.
-        magnitudeCircle.setColor(ContextCompat.getColor(getContext(), magnitudeColorResourceId));
-
-        // City
-        // String to split
-        String city = currentEarthquake.getCity();
-        String cityArray[] = city.split("of ");
-        // City offset
-        TextView cityoffsetTextView = (TextView) listItemView.findViewById(R.id.cityoffset_textview);
-        // City
-        TextView cityTextView = (TextView) listItemView.findViewById(R.id.city_textview);
-        if (cityArray.length == 1) {
-            // If offset not available
-            cityoffsetTextView.setText("");
-            cityTextView.setText(cityArray[0]);
-        } else {
-            // If offset available
-            cityoffsetTextView.setText(cityArray[0] + " of");
-            cityTextView.setText(cityArray[1]);
-        }
-
-        // Date
-        TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_textview);
-        // Format milliseconds to date and time
-        String date;
-        // Create new Calendar
-        Calendar cal = Calendar.getInstance();
-        // Create date formatter
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy h:mm a");
-        cal.setTimeInMillis(currentEarthquake.getDate());
-        date = dateFormatter.format(cal.getTime());
-
-        dateTextView.setText(date);
-
-        return listItemView;
+        return ContextCompat.getColor(getContext(), magnitudeColorResourceId);
     }
 }

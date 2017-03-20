@@ -15,8 +15,12 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -36,8 +40,25 @@ public class EarthquakeActivity extends AppCompatActivity {
         ArrayList<Earthquake> earthquake = QueryUtils.extractEarthquakes();
 
         // Create a new {@link ArrayAdapter} of earthquakes
-        EarthquakeAdapter adapter = new EarthquakeAdapter(this, earthquake);
+        final EarthquakeAdapter adapter = new EarthquakeAdapter(this, earthquake);
         ListView listView = (ListView) findViewById(R.id.list);
+
+        // Set an onclick listener
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // Find the current earthquake that was clicked on
+                Earthquake currentEarthquake = adapter.getItem(position);
+
+                // Convert the string url into a uri object (to pass into the Intent constructor)
+                Uri earthquakeUri = Uri.parse(currentEarthquake.getURL());
+
+                // Create a new intent to view the earthquake Uri
+                Intent detailsIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
+
+                startActivity(detailsIntent);
+            }
+        });
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface

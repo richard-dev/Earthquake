@@ -17,12 +17,15 @@ public class Earthquake {
 
     private long mTime;
 
+    private String mURL;
+
 
     // Constructor
-    public Earthquake(double magnitude, String city, long time) {
+    public Earthquake(double magnitude, String city, long time, String url) {
         mMagnitude = magnitude;
         mCity = city;
         mTime = time;
+        mURL = url;
     }
 
     // Getters
@@ -37,4 +40,6 @@ public class Earthquake {
     public long getDate() {
         return mTime;
     }
+
+    public String getURL() { return mURL; }
 }
