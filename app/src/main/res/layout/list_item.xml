@@ -8,10 +8,13 @@
     <TextView
         android:id="@+id/magnitude_textview"
         style="@style/ListItemStyle"
-        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="6"
-        tools:text="Mag" />
+        android:textColor="@android:color/white"
+        android:background="@drawable/magnitude_circle"
+        tools:text="8.9"
+        android:gravity="center"/>
 
     <LinearLayout
         style="@style/ListItemStyle"
@@ -41,7 +44,7 @@
         style="@style/ListItemStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
+        android:layout_weight="6"
         android:gravity="right"
         android:textSize="12sp"
         tools:text="Jan 29, 2016 10:10 PM" />
