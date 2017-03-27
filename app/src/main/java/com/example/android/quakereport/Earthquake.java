@@ -7,10 +7,6 @@ import java.util.Calendar;
  */
 
 public class Earthquake {
-    private int mPosition;
-
-    // private int mDrawableResource;
-
     private double mMagnitude;
 
     private String mCity;
