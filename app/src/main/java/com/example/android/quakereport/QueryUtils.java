@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.POWER_SERVICE;
 import static com.example.android.quakereport.MainActivity.LOG_TAG;
@@ -37,7 +38,7 @@ public final class QueryUtils {
      * Return a list of {@link Earthquake} objects that has been built up from
      * parsing a JSON response.
      */
-    public static ArrayList<Earthquake> extractEarthquakes(String stringURL) {
+    public static List<Earthquake> extractEarthquakes(String stringURL) {
         // Create URL object
         URL url = createURL(stringURL);
 
@@ -51,7 +52,7 @@ public final class QueryUtils {
         }
 
         // Extract the data we need from the JSON response
-        ArrayList<Earthquake> earthquakes = extractFeaturesFromJSON(JSONResponse);
+        List<Earthquake> earthquakes = extractFeaturesFromJSON(JSONResponse);
 
 
         // Return the list of earthquakes: String magnitude, String city, String date
@@ -127,14 +128,14 @@ public final class QueryUtils {
         return sb.toString();
     }
 
-    private static ArrayList<Earthquake> extractFeaturesFromJSON(String earthquakeJSON) {
+    private static List<Earthquake> extractFeaturesFromJSON(String earthquakeJSON) {
         // If the JSON response is empty or null, return early
         if (TextUtils.isEmpty(earthquakeJSON)) {
             return null;
         }
 
         try {
-            ArrayList<Earthquake> earthquakes = new ArrayList<>();
+            List<Earthquake> earthquakes = new ArrayList<>();
             JSONObject root = new JSONObject(earthquakeJSON);
             JSONArray featuresArray = root.getJSONArray("features");
             for (int i = 0; i < featuresArray.length(); i++) {
@@ -154,19 +155,4 @@ public final class QueryUtils {
         }
         return null;
     }
-    //            JSONObject root = new JSONObject(SAMPLE_JSON_RESPONSE);
-//            JSONArray featuresArray = root.getJSONArray("features");
-//
-//            for (int i = 0; i < featuresArray.length(); i++) {
-//                JSONObject featuresObject = featuresArray.getJSONObject(i);
-//                JSONObject propertiesObject = featuresObject.getJSONObject("properties");
-//
-//                earthquakes.add(new Earthquake(
-//                        propertiesObject.getDouble("mag"),
-//                        propertiesObject.getString("place"),
-//                        Long.parseLong(propertiesObject.getString("time")),
-//                        propertiesObject.getString("url")
-//                ));
-//            }
-
 }

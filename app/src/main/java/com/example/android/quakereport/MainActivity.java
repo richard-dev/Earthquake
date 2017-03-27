@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         task.execute(USGS_URL);
     }
 
-    private void updateUI(ArrayList<Earthquake> earthquakes) {
+    private void updateUI(List<Earthquake> earthquakes) {
         // Create a new {@link ArrayAdapter} of earthquakes
         final EarthquakeAdapter adapter = new EarthquakeAdapter(this, earthquakes);
         ListView listView = (ListView) findViewById(R.id.list);
@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    private class EarthquakeAsyncTask extends AsyncTask<String, Void, ArrayList<Earthquake>> {
+    private class EarthquakeAsyncTask extends AsyncTask<String, Void, List<Earthquake>> {
 
         @Override
-        protected ArrayList<Earthquake> doInBackground(String... urls) {
+        protected List<Earthquake> doInBackground(String... urls) {
             // If invalid url strings
             if (urls.length < 1 || urls[0] == null) {
                 return null;
@@ -81,12 +81,12 @@ public class MainActivity extends AppCompatActivity {
 
             // Create earthquake arraylist from QueryUtils which extracts data from a JSON object
             // and puts it in an EarthQuake ArrayList.
-            ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes(urls[0]);
+            List<Earthquake> earthquakes = QueryUtils.extractEarthquakes(urls[0]);
             return earthquakes;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Earthquake> result) {
+        protected void onPostExecute(List<Earthquake> result) {
             // If no result
             if (result == null) {
                 return ;

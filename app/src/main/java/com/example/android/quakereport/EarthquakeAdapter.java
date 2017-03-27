@@ -17,13 +17,14 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
     // the second argument is used when the ArrayAdapter is populating a single TextView.
     // Because this is a custom adapter for two TextViews and an ImageView, the adapter is not
     // going to use this second argument, so it can be any value. Here, we used 0.
-    public EarthquakeAdapter(Activity context, ArrayList<Earthquake> earthquakes) {
+    public EarthquakeAdapter(Activity context, List<Earthquake> earthquakes) {
         super(context, 0, earthquakes);
     }
 
