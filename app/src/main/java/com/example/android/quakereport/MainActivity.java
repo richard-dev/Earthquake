@@ -15,7 +15,10 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Loader;
@@ -83,15 +86,31 @@ public class MainActivity extends AppCompatActivity
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         listView.setEmptyView(mEmptyStateTextView);
 
-        // To retrieve an earthquake, we need to get the loader manager and tell the
-        // loader manager to initialize the loader with the specified ID,
-        // the second argument allows us to pass a bundle of additional information,
-        // which we'll skip. The third argument is what object should receive the
-        // LoaderCallbacks (and therefore, the data when the load is complete!) -
-        // which will be this activity. This code goes inside the onCreate() method of the
-        // EarthquakeActivity, so that the loader can be initialized as soon as the app opens.
-        getLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
-        Log.i(LOG_TAG, "initLoader");
+        // Assign progress bar id
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+        // Check if internet is available.
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // To retrieve an earthquake, we need to get the loader manager and tell the
+            // loader manager to initialize the loader with the specified ID,
+            // the second argument allows us to pass a bundle of additional information,
+            // which we'll skip. The third argument is what object should receive the
+            // LoaderCallbacks (and therefore, the data when the load is complete!) -
+            // which will be this activity. This code goes inside the onCreate() method of the
+            // EarthquakeActivity, so that the loader can be initialized as soon as the app opens.
+            getLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
+            Log.i(LOG_TAG, "start Loader");
+        } else {
+            // Hide progress bar
+            mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+            mProgressBar.setVisibility(GONE);
+            // Set no internet text
+            mEmptyStateTextView.setText("No Internet connection found.");
+            Log.i(LOG_TAG, "skip loader, no internet connection.");
+        }
+
     }
 
     @Override
@@ -119,7 +138,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Hide progress bar.
-        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mProgressBar.setVisibility(GONE);
     }
 
