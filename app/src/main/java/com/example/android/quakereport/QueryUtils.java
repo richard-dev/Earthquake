@@ -45,6 +45,13 @@ public final class QueryUtils {
         // Perform Http request ot the URL and receive a JSON response.
         String JSONResponse = null;
 
+        // Test progress bar by inserting a delay.
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         try {
             JSONResponse = makeHttpRequest(url);
         } catch (IOException e) {

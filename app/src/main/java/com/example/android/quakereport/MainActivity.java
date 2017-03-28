@@ -25,10 +25,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderCallbacks<List<Earthquake>> {
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private static final int EARTHQUAKE_LOADER_ID = 0;
     private EarthquakeAdapter mAdapter;
     private TextView mEmptyStateTextView;
+    private ProgressBar mProgressBar;
 
 
     @Override
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity
         // We need onCreateLoader(), for when the LoaderManager has determined that the loader
         // with our specified ID isn't running, so we should create a new one.
         Log.i(LOG_TAG, "onCreateLoader");
+
         return new EarthquakeLoader(this, USGS_URL);
     }
 
@@ -111,6 +117,10 @@ public class MainActivity extends AppCompatActivity
             mAdapter.addAll(earthquakes);
             Log.i(LOG_TAG, "onLoadFinished: adding to mAdapter.");
         }
+
+        // Hide progress bar.
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        mProgressBar.setVisibility(GONE);
     }
 
     @Override
