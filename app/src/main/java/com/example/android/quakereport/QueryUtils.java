@@ -54,7 +54,6 @@ public final class QueryUtils {
         // Extract the data we need from the JSON response
         List<Earthquake> earthquakes = extractFeaturesFromJSON(JSONResponse);
 
-
         // Return the list of earthquakes: String magnitude, String city, String date
         return earthquakes;
     }
@@ -116,7 +115,8 @@ public final class QueryUtils {
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder sb = new StringBuilder();
         if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            InputStreamReader inputStreamReader = new
+                    InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine(); // read the first line
             while (line != null) {
