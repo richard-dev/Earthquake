@@ -2,6 +2,7 @@ package com.example.android.quakereport;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -22,18 +23,21 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
     @Override
     protected void onStartLoading() {
         forceLoad();
+        Log.i(LOG_TAG, "forceLoad");
     }
 
     @Override
     public List<Earthquake> loadInBackground() {
         // If invalid url strings
         if (mURL == null) {
+            Log.i(LOG_TAG, "mURL is null.");
             return null;
         }
 
         // Create earthquake arraylist from QueryUtils which extracts data from a JSON object
         // and puts it in an EarthQuake ArrayList.
         List<Earthquake> earthquakes = QueryUtils.extractEarthquakes(mURL);
+        Log.i(LOG_TAG, "returning earthquakes from QueryUtils.");
         return earthquakes;
     }
 }

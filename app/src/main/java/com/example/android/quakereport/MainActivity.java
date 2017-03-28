@@ -19,12 +19,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Loader;
-import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity
      */
     private static final int EARTHQUAKE_LOADER_ID = 0;
     private EarthquakeAdapter mAdapter;
+    private TextView mEmptyStateTextView;
 
 
     @Override
@@ -72,6 +74,10 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Empty text view if no data to show
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        listView.setEmptyView(mEmptyStateTextView);
+
         // To retrieve an earthquake, we need to get the loader manager and tell the
         // loader manager to initialize the loader with the specified ID,
         // the second argument allows us to pass a bundle of additional information,
@@ -80,12 +86,14 @@ public class MainActivity extends AppCompatActivity
         // which will be this activity. This code goes inside the onCreate() method of the
         // EarthquakeActivity, so that the loader can be initialized as soon as the app opens.
         getLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        Log.i(LOG_TAG, "initLoader");
     }
 
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
         // We need onCreateLoader(), for when the LoaderManager has determined that the loader
         // with our specified ID isn't running, so we should create a new one.
+        Log.i(LOG_TAG, "onCreateLoader");
         return new EarthquakeLoader(this, USGS_URL);
     }
 
@@ -94,10 +102,14 @@ public class MainActivity extends AppCompatActivity
         // Clear the adapter of previous earthquake data
         mAdapter.clear();
 
+        // Set empty state text
+        mEmptyStateTextView.setText("No earthquakes found.");
+
         // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (earthquakes != null && !earthquakes.isEmpty()) {
             mAdapter.addAll(earthquakes);
+            Log.i(LOG_TAG, "onLoadFinished: adding to mAdapter.");
         }
     }
 
@@ -108,5 +120,6 @@ public class MainActivity extends AppCompatActivity
         // but the correct thing to do is to remove all the earthquake data from our UI
         // by clearing out the adapter’s data set.
         mAdapter.clear();
+        Log.i(LOG_TAG, "clearing mAdapter.");
     }
 }

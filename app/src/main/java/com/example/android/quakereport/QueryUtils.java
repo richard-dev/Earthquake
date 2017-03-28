@@ -67,6 +67,7 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Error creating URL", e);
             return null;
         }
+        Log.i(LOG_TAG, "created url object: " + url);
         return url;
     }
 
@@ -76,6 +77,7 @@ public final class QueryUtils {
 
         // If the URL is null, then return early
         if (url == null) {
+            Log.i(LOG_TAG, "url is null.");
             return JSONResponse;
         }
 
@@ -108,6 +110,7 @@ public final class QueryUtils {
                 inputStream.close();
             }
         }
+        Log.i(LOG_TAG, "successfully returning JSONResponse.");
         return JSONResponse;
     }
 
@@ -125,12 +128,14 @@ public final class QueryUtils {
                 line = reader.readLine(); // read next line
             }
         }
+        Log.i(LOG_TAG, "successfully returning inputstream.");
         return sb.toString();
     }
 
     private static List<Earthquake> extractFeaturesFromJSON(String earthquakeJSON) {
         // If the JSON response is empty or null, return early
         if (TextUtils.isEmpty(earthquakeJSON)) {
+            Log.i(LOG_TAG, "JSON string is empty.");
             return null;
         }
 
@@ -149,10 +154,12 @@ public final class QueryUtils {
                         propertiesObject.getString("url")
                 ));
             }
+            Log.i(LOG_TAG, "successfully returning List<Earthquake>.");
             return earthquakes;
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problems parsing JSON", e);
         }
+        Log.i(LOG_TAG, "returning null.");
         return null;
     }
 }
