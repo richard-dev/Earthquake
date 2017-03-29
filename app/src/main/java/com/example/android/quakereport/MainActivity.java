@@ -25,6 +25,8 @@ import android.content.Loader;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String LOG_TAG = MainActivity.class.getName();
     private static final String USGS_URL =
-            "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=5&limit=10";
+            "https://earthquake.usgs.gov/fdsnws/event/1/query";
     /**
      * Constant value for the earthquake loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
@@ -113,6 +115,25 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    // Settings
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // When user clicks on a menu item.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // Loader
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
         // We need onCreateLoader(), for when the LoaderManager has determined that the loader
@@ -121,7 +142,6 @@ public class MainActivity extends AppCompatActivity
 
         return new EarthquakeLoader(this, USGS_URL);
     }
-
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
         // Clear the adapter of previous earthquake data
@@ -140,7 +160,6 @@ public class MainActivity extends AppCompatActivity
         // Hide progress bar.
         mProgressBar.setVisibility(GONE);
     }
-
     @Override
     public void onLoaderReset(Loader<List<Earthquake>> loader) {
         // Where we're being informed that the data from our loader is no longer valid.

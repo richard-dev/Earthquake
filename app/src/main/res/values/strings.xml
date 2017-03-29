@@ -15,4 +15,15 @@
 -->
 <resources>
     <string name="app_name">Quake Report</string>
+
+    <!-- Settings Menu Item -->
+    <string name="settings_menu_Item">Settings</string>
+
+    <!-- Settings Activity Title -->
+    <string name="settings_title">Earthquake Settings</string>
+
+    <!-- Strings for min mag preference -->
+    <string name="settings_min_mag_label">Mininum Magnitude</string>
+    <string name="settings_min_mag_key" translatable="false">min_magnitude</string>
+    <string name="settings_min_mag_default" translatable="false">6</string>
 </resources>
