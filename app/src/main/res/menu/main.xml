@@ -7,7 +7,7 @@
     <item
         android:id="@+id/action_settings"
         android:title="@string/settings_menu_Item"
-        android:icon="@drawable/ic_filter_list_black_24dp"
+        android:icon="@drawable/ic_settings_black_24dp"
         android:orderInCategory="1"
         app:showAsAction="ifRoom">
     </item>

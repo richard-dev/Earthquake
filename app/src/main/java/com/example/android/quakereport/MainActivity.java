@@ -17,12 +17,14 @@ package com.example.android.quakereport;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Loader;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -134,13 +136,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     // Loader
+    // We need onCreateLoader(), for when the LoaderManager has determined that the loader
+    // with our specified ID isn't running, so we should create a new one.
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
-        // We need onCreateLoader(), for when the LoaderManager has determined that the loader
-        // with our specified ID isn't running, so we should create a new one.
-        Log.i(LOG_TAG, "onCreateLoader");
+        // Get preference settings
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String minMag = sharedPreferences.getString(
+                getString(R.string.settings_min_mag_key),
+                getString(R.string.settings_min_mag_default)
+        );
+        // Create uri object
+        Uri baseUri = Uri.parse(USGS_URL);
+        Uri.Builder ub = baseUri.buildUpon();
+        // build parameters
+        ub.appendQueryParameter("format", "geojson");
+        ub.appendQueryParameter("limit", "20");
+        ub.appendQueryParameter("minmag", minMag);
+        ub.appendQueryParameter("orderby", "time");
 
-        return new EarthquakeLoader(this, USGS_URL);
+        Log.i(LOG_TAG, "onCreateLoader");
+        return new EarthquakeLoader(this, ub.toString());
     }
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
