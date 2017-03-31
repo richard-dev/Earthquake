@@ -142,10 +142,17 @@ public class MainActivity extends AppCompatActivity
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
         // Get preference settings
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        // Get min mag from string value and set default
         String minMag = sharedPreferences.getString(
                 getString(R.string.settings_min_mag_key),
                 getString(R.string.settings_min_mag_default)
         );
+        // Get order by key and default in string value
+        String orderBy = sharedPreferences.getString(
+                getString(R.string.settings_order_key),
+                getString(R.string.settings_order_default)
+        );
+
         // Create uri object
         Uri baseUri = Uri.parse(USGS_URL);
         Uri.Builder ub = baseUri.buildUpon();
