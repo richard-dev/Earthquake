@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
             // For list preferences
             if (preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;
-                // get index of radiobuttonlist
+                // get index of list preference list (looks like a radiobuttonlist)
                 int prefIndex = listPreference.findIndexOfValue(stringValue);
                 if (prefIndex >= 0) {
                     CharSequence[] labels = listPreference.getEntries();
